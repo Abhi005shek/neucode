@@ -1,9 +1,10 @@
+import ProjectsView from "@/features/projects/components/projects-view";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="text-center">
-      Hello World!
+    <div>
+      <ProjectsView />
     </div>
   );
 }
