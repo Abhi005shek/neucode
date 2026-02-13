@@ -1,0 +1,79 @@
+"use client";
+import { cn } from "@/lib/utils";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { use, useState } from "react";
+import { FaGithub } from "react-icons/fa";
+
+const Tab = ({
+  label,
+  isActive,
+  onClick,
+}: {
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+}) => {
+  return (
+    <div
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-2 h-full px-3 cursor-pointer border-r text-muted-foreground hover:bg-accent/30 ",
+        isActive && "bg-background text-foreground",
+      )}
+    >
+      <span className="text-sm">{label}</span>
+    </div>
+  );
+};
+
+export default function ProjectIdView({
+  projectId,
+}: {
+  projectId: Id<"projects">;
+}) {
+  const [activeView, setActiveView] = useState<"editor" | "preview">("editor");
+
+  return (
+    <div className="flex h-full flex-col">
+      <nav className="h-8.75 flex items-center bg-sidebar border-b">
+        <Tab
+          label="Code"
+          isActive={activeView === "editor"}
+          onClick={() => setActiveView("editor")}
+        />
+
+        <Tab
+          label="Preview"
+          isActive={activeView === "preview"}
+          onClick={() => setActiveView("preview")}
+        />
+        <div className="flex flex-1 h-full justify-end">
+          <div className="flex items-center gap-1.5 h-full px-3 cursor-pointer border-l text-muted-foreground hover:bg-accent/30">
+            <FaGithub className="size-3.5" />
+            <span className="text-sm">Export</span>
+          </div>
+        </div>
+      </nav>
+
+      <div className="flex-1 relative">
+        <div
+          className={cn(
+            "absolute inset-0",
+            activeView === "editor" ? "visible" : "invisible",
+          )}
+        >
+          <div>Editor</div>
+        </div>
+
+        <div
+          className={cn(
+            "absolute inset-0",
+            activeView === "preview" ? "visible" : "invisible",
+          )}
+        >
+          <div>Preview</div>
+        </div>
+      </div>
+    </div>
+  );
+}

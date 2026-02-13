@@ -33,7 +33,9 @@ const getProjectIcon = (project: Doc<"projects">) => {
   }
 
   if (project.importStatus === "importing") {
-    return <Loader2Icon className="size-3.5 text-muted-foreground" />;
+    return (
+      <Loader2Icon className="size-3.5 text-muted-foreground animate-spin" />
+    );
   }
 
   return <GlobeIcon className="size-3.5 text-muted-foreground" />;

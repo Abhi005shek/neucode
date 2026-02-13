@@ -60,13 +60,12 @@ export const ProjectsCommandDialog = ({
         <CommandEmpty>No projects found.</CommandEmpty>
         <CommandGroup heading="Projects">
           {projects?.map((p) => (
-            <Link href={`/projects/${p._id}`}>
-              <CommandItem key={p._id} value={`${p.name}-${p._id}`}>
+            <Link key={p._id} href={`/projects/${p._id}`}>
+              <CommandItem value={`${p.name}-${p._id}`}>
                 {getProjectIcon(p)}
                 <span>{p.name}</span>
               </CommandItem>
             </Link>
-            
           ))}
         </CommandGroup>
       </CommandList>
