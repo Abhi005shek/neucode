@@ -16,6 +16,7 @@ import CreateInput from "./create-input";
 import { useState } from "react";
 import { TreeItemWrapper } from "./tree-item-wrapper";
 import RenameInput from "./rename-input";
+import { useEditor } from "@/features/editor/hooks/use-editor";
 
 export default function Tree({
   projectId,
@@ -34,6 +35,8 @@ export default function Tree({
   const deleteFile = useDeleteFile();
   const createFile = useCreateFile();
   const createFolder = useCreateFolder();
+
+  const { openFile, closeTab, activeTabId } = useEditor(projectId);
 
   const folderContents = useFolderContents({
     projectId,
@@ -75,6 +78,8 @@ export default function Tree({
 
   const fileName = item.name;
   if (item.type === "file") {
+    const isActive = activeTabId === item._id;
+
     if (isRenaming) {
       return (
         <RenameInput
@@ -92,11 +97,14 @@ export default function Tree({
       <TreeItemWrapper
         item={item}
         level={level}
-        isActive={false}
-        onClick={() => {}}
-        onDoubleClick={() => {}}
+        isActive={isActive}
+        onClick={() => openFile(item._id, { pinned: false })}
+        onDoubleClick={() => {
+          openFile(item._id, { pinned: true })
+        }}
         onRename={() => setIsRenaming(true)}
         onDelete={() => {
+          closeTab(item._id);
           deleteFile({ id: item._id });
         }}
       >
